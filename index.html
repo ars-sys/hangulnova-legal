@@ -47,7 +47,7 @@
 <h3>2. 取得・処理する情報</h3>
 <ul>
   <li><strong>学習コンテンツ（テキスト）</strong>: 会話練習や読解の解答など、ユーザーが入力・生成したテキストを、AIによるフィードバック生成のため当社のバックエンドを経由して Anthropic 社の Claude API に送信します。</li>
-  <li><strong>音声（マイク）</strong>: 発音練習のためにマイクで録音した音声を使用します。音声認識（文字起こし）には Apple の音声認識機能を利用し、この過程で音声が Apple のサーバーに送信される場合があります。録音した音声ファイルは端末内にのみ保存され、当社がこれを収集・保存することはありません。</li>
+  <li><strong>音声（マイク）</strong>: 発音の採点・AI 会話のためにマイクで録音した音声を使用します。単語の発音の採点（1.13 以降）は端末の中の音声認識モデルで行い、音声も結果も端末の外に送りません（モデルは初回に当社のサーバーからダウンロードします）。AI 会話の文字起こしには Apple の音声認識機能を利用し、この過程で音声が Apple のサーバーに送信される場合があります。録音した音声ファイルは端末内にのみ保存され、当社がこれを収集・保存することはありません。</li>
   <li><strong>アプリ内設定・学習進捗</strong>: 学習プラン、目標、単語帳、録音、ダウンロード状態などは端末内（ローカルストレージ）にのみ保存されます。</li>
 </ul>
 
@@ -92,6 +92,7 @@
   <li><strong>不正利用の防止（Play Integrity、1.1 以降）</strong>: AI 機能を使うとき、アプリが正規のものかを確かめるため、Google LLC の Play Integrity API の判定と、アプリが端末内で作った識別子（ランダムな文字列。氏名や端末の ID とは結びつきません）を当社のバックエンドに送り、回数の制限に使います。</li>
   <li><strong>AI の応答の報告（1.1 以降）</strong>: AI の応答のそばの旗のボタンから、不適切な内容や間違いを報告できます。報告すると、その応答の文・直前にあなたが話した文・選んだ理由・任意のひとこと・アプリの版と表示言語が当社のバックエンド（Cloudflare, Inc.）に保存されます。IP アドレスや端末の識別子は保存しません。報告は AI の応答の改善と不適切な内容への対応のためだけに使います。</li>
   <li><strong>発音チェック（マイク、1.1 以降）</strong>: 単語や例文を声に出すと、端末の音声認識サービス（多くの端末では Google LLC が提供）が文字に起こし、アプリが端末内でお手本と照らして点を出します。この過程で音声が音声認識サービスの提供者のサーバーに送信される場合があります（その扱いは提供者のプライバシーポリシーに従います）。本アプリは音声も文字起こしの結果も保存せず、当社に送信することもありません。マイクの使用はボタンを押したときだけで、端末の設定からいつでも許可を取り消せます。</li>
+  <li><strong>単語の発音の採点（マイク、1.4.0 以降）</strong>: 単語カードで単語を言うと、端末の中の音声認識モデルが音ごとに採点します。音声も結果も端末の外に送らず、保存もしません（モデルは初回に当社のサーバーからダウンロードします）。</li>
   <li><strong>端末内のデータ</strong>: 学習の進み具合・目標・単語帳・模擬試験の結果・設定は端末内にのみ保存し、当社や第三者に送信しません。アプリを削除すると消去されます。</li>
   <li><strong>録音の音声のダウンロード</strong>: 録音の音声と模擬試験の聴解の音声は、ユーザーが取得を選んだときに当社の配信サーバー（Cloudflare, Inc. の基盤で運用）から取得します。要求に含まれるのはファイル名だけで、ユーザーを識別する情報は送りません。</li>
   <li><strong>印刷用の書体</strong>: 模擬試験を印刷するとき、書体ファイルを Google Fonts（Google LLC）から取得します。送るのは書体の名前だけです。</li>
@@ -111,7 +112,7 @@
 <h3>2. Information We Process</h3>
 <ul>
   <li><strong>Learning content (text):</strong> Text you enter or generate (e.g., conversation practice and reading answers) is sent through our backend to Anthropic's Claude API to produce AI feedback.</li>
-  <li><strong>Audio (microphone):</strong> Microphone audio is used for pronunciation practice. Speech-to-text uses Apple's speech recognition, which may transmit audio to Apple's servers. Recordings are stored only on your device; we do not collect or store them.</li>
+  <li><strong>Audio (microphone):</strong> Microphone audio is used for pronunciation scoring and AI conversation. Word pronunciation scoring (version 1.13 and later) runs on an on-device speech recognition model; neither the audio nor the results leave your device (the model is downloaded once from our server). Speech-to-text for AI conversation uses Apple's speech recognition, which may transmit audio to Apple's servers. Recordings are stored only on your device; we do not collect or store them.</li>
   <li><strong>In-app settings &amp; progress:</strong> Study plans, goals, your word list, recordings, and download state are stored only on your device (local storage).</li>
 </ul>
 
@@ -150,6 +151,7 @@
   <li><strong>Abuse prevention (Play Integrity, version 1.1 and later):</strong> When you use an AI feature, the App sends a Google LLC Play Integrity API verdict and an identifier the App generates on your device (a random string not linked to your name or device IDs) to our backend, to confirm the App is genuine and to enforce usage limits.</li>
   <li><strong>Reporting AI responses (version 1.1 and later):</strong> You can report inappropriate content or mistakes with the flag button next to an AI response. A report stores the response text, the sentence you spoke just before it, the reason you chose, your optional comment, and the App version and display language on our backend (Cloudflare, Inc.). We do not store your IP address or device identifiers. Reports are used only to improve AI responses and to deal with inappropriate content.</li>
   <li><strong>Pronunciation check (microphone, version 1.1 and later):</strong> When you read a word or example sentence aloud, your device&rsquo;s speech recognition service (provided by Google LLC on most devices) converts it to text, and the App compares it with the model on your device to give a score. Audio may be sent to the speech recognition provider&rsquo;s servers in this process and is handled under that provider&rsquo;s privacy policy. The App does not store the audio or the transcript and does not send them to us. The microphone is used only when you tap the button, and you can revoke the permission at any time in your device settings.</li>
+  <li><strong>Word pronunciation scoring (microphone, version 1.4.0 and later):</strong> When you say a word on its card, an on-device speech recognition model scores it sound by sound. Neither the audio nor the results leave your device or are stored (the model is downloaded once from our server).</li>
   <li><strong>On-device data:</strong> Your progress, goals, word list, mock exam results, and settings are stored only on your device and are not sent to us or any third party. They are erased when you delete the App.</li>
   <li><strong>Downloading recorded audio:</strong> When you choose to download them, recorded audio and mock exam listening audio are fetched from our distribution server (run on Cloudflare, Inc. infrastructure). Requests contain only file names and no information identifying you.</li>
   <li><strong>Fonts for printing:</strong> When you print a mock exam, font files are downloaded from Google Fonts (Google LLC). Only the font names are sent.</li>
